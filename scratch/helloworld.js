@@ -5,18 +5,25 @@
     // Status reporting code
     // Use this to report missing hardware, plugin or unsupported browser
     ext._getStatus = function() {
-        return {status: 2, msg: 'Ready'};
+        return {status: 2, msg: 'Klar'};
     };
 
-    ext.my_first_block = function() {
-        alert('Hello world');
+    ext.web = function() {
+         $.ajax({
+              url: 'http://api.openweathermap.org/data/2.5/weather?q='+location+'&units=imperial',
+              dataType: 'jsonp',
+              success: function( weather_data ) {
+                  // Got the data - parse it and return the temperature
+                  temperature = weather_data['main']['temp'];
+                  callback(temperature);
+              }
+        });
     };
 
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
-            // Block type, block name, function name
-            [' ', 'my first block', 'my_first_block'],
+            ['R', 'Temperaturen i %s', 'get_temp', 'Boston, MA'],
         ]
     };
 
